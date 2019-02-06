@@ -1,13 +1,13 @@
 import { Controller, Get, Request, Response, Next, UseGuards, Post } from '@nestjs/common';
-import { RolesGuard } from '../Shared/Guard/roles.guard';
 import { Roles } from '../Shared/Decorators/roles.decorator';
+import { WebSocketRolesGuard } from '../Shared/Guard/websocket.roles.guard';
+import { RolesGuard } from '../Shared/Guard/roles.guard';
 
 @Controller()
 @UseGuards(RolesGuard)
 export class ChatController {
   constructor() {}
 
-  
   @Get('chat')
   async chat(@Request() req, @Response() res, @Next() next) {
     res.render('./Chat/chat', {

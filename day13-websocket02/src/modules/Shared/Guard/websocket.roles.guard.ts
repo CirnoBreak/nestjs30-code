@@ -10,9 +10,7 @@ export class WebSocketRolesGuard implements CanActivate {
     context: ExecutionContext
   ): boolean {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
-    const request = context.switchToHttp().getRequest();
-    const data = request.data;
-    console.log('req', request)
+    const data = context.switchToWs().getData();
     if (!roles) {
       return true;
     }

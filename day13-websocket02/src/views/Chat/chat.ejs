@@ -29,11 +29,7 @@
   <script>
     const socket = io('ws://localhost:81/messages');
     $('#chatForm').submit(function(){
-      let data = {};
-      let Message = getCookie('name')+ ":" + $('#chatMessage').val();
-      data.roles = ['general'];
-      data.message = Message;
-      socket.emit('pushMessage', data);
+      socket.emit('pushMessage', $('#chatMessage').val());
       $('#chatMessage').val('');
       return false;
     });

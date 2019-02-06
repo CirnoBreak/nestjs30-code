@@ -2,9 +2,12 @@ import { WebSocketGateway, SubscribeMessage, WsResponse, WebSocketServer, WsExce
 import { NestGateway } from '@nestjs/websockets/interfaces/nest-gateway.interface';
 import Socket = SocketIO.Socket;
 import { Roles } from '../Shared/Decorators/roles.decorator';
+import { UseGuards } from '@nestjs/common';
+import { WebSocketRolesGuard } from '../Shared/Guard/websocket.roles.guard';
 
 // websocket 监听81端口
 @WebSocketGateway(81, { namespace: 'messages' })
+@UseGuards(WebSocketRolesGuard)
 export class ChatGateway implements NestGateway {
   socket: Socket;
   constructor() {}
@@ -20,8 +23,7 @@ export class ChatGateway implements NestGateway {
   @SubscribeMessage('pushMessage')
   @Roles('general')
   AddMessage(sender, message: string) {
-    let tmpMessage: string = `${message}`;
-    sender.emit('newMessage', tmpMessage);
-    sender.broadcast.emit('newMessage', tmpMessage);
+    sender.emit('newMessage', message);
+    sender.broadcast.emit('newMessage', message);
   }
 }

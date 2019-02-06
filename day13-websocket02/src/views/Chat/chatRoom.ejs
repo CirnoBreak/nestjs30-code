@@ -28,14 +28,18 @@
 <script>
   const socket = io('ws://localhost:81/messages');
   $('#chatForm').submit(() => {
-    let Message = getCookie('name') + ":" + $('#chatMessage').val();
-    console.log(Message);
-    socket.emit('pushMessage', Message);
+    let data = {};
+    let Message = getCookie('name')+ ":" + $('#chatMessage').val();
+    data.roles = ['general'];
+    data.message = Message;
+    console.log(data)
+    socket.emit('pushMessage', data);
     $('#chatMessage').val('');
     return false;
   });
   socket.on('newMessage', (msg) => {
-    $('#messages').append($('<li>')).text(msg);
+    console.log('msg', msg)
+    $('#messages').append($('<li>').text(msg.message));
     window.scrollTo(0, document.body.scrollHeight);
   });
   socket.on('connect', () => {
@@ -46,7 +50,8 @@
   });
   function getCookie (name) {
     let value = "; " + document.cookie;
-    let parts = value.split("; ", + name + "=");
+    let parts = value.split("; " + name + "=");
+    console.log(value)
     if (parts.length === 2) {
       return parts.pop().split(";").shift();
     }
