@@ -1,9 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { MessagePattern, ClientProxy, Client, Transport } from '@nestjs/microservices';
+import { MessagePattern } from '@nestjs/microservices';
 import { Observable, of } from 'rxjs';
 import { ClientRMQ } from 'nestjs-rmq';
-// import { ClientRMQ } from 'nestjs-rmq';
 
 const clientOpt = {
   urls: ['amqp://ixtpomaj:t1EdwWivTGtzf9XVu40ZSvNh2gSMy6BQ@mustang.rmq.cloudamqp.com/ixtpomaj'],
