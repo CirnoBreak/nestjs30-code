@@ -1,21 +1,22 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Users } from './Users/users.entity';
+import { User } from '../users/users.entity';
 
-export const databaseProvider = [
+export const databaseProviders = [
   {
-    provide: 'SequelizeInstance',
+    provide: 'SequelizeToken',
     useFactory: async () => {
       const sequelize = new Sequelize({
+        operatorsAliases: false,
         dialect: 'mysql',
         host: 'localhost',
         port: 3306,
         username: 'root',
         password: '',
-        database: 'day30test'
+        database: 'day30',
       });
-      sequelize.addModels([Users]);
+      sequelize.addModels([User]);
       await sequelize.sync();
       return sequelize;
-    }
-  }
+    },
+  },
 ];
